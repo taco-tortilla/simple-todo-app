@@ -1,0 +1,35 @@
+services:
+  app:
+    container_name: simple-todo-app
+    build:
+      context: .
+      dockerfile: ./build/app/Dockerfile
+    image: simple-todo-app:1.0
+    ports:
+      - 8080:8080
+    volumes:
+      - ./simple-todo:/app/simple-todo
+    tty: true
+    env_file:
+      - ./build/.go_env
+    environment:
+      - TZ=Asia/Tokyo
+
+  db:
+    container_name: simple-todo-db
+    build:
+      context: .
+      dockerfile: ./build/db/Dockerfile
+    image: simple-todo-db:1.0
+    ports:
+      - 5431:5431
+    volumes:
+      - simple-todo-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password!123
+      - POSTGRES_DB=simple_todo
+
+volumes:
+  simple-todo-db:
+    name: simple-todo-db
