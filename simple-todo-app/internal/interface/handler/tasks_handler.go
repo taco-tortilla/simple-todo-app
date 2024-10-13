@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/taco-tortilla/simple-todo-app/internal/domain/model"
 	"github.com/taco-tortilla/simple-todo-app/internal/presentation/request"
+	"github.com/taco-tortilla/simple-todo-app/internal/presentation/response"
 	"github.com/taco-tortilla/simple-todo-app/internal/usecase"
 	"gorm.io/gorm"
 )
@@ -24,13 +25,23 @@ func NewTasksHandler(tasksUsecase usecase.TasksUsecase) TasksHandler {
 }
 
 func (h *TasksHandler) GetAllTasksHandler(w http.ResponseWriter, r *http.Request) {
-	tasks, err := h.TasksUsecase.GetAll()
+	isDoneStr := r.URL.Query().Get("isDone")
+	var isDone *bool
+	if isDoneStr != "" {
+		value := (isDoneStr == "true")
+		isDone = &value
+	}
+
+	tasks, err := h.TasksUsecase.GetAll(isDone)
+
 	if err != nil {
 		http.Error(w, "Error fetching tasks", http.StatusInternalServerError)
 		return
 	}
+
+	res := response.ConvertTasksToResponse(tasks)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(tasks)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (h *TasksHandler) GetTaskByIDHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,8 +57,19 @@ func (h *TasksHandler) GetTaskByIDHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, "Error fetching tasks", http.StatusInternalServerError)
 		return
 	}
+
+	res := response.TasksResponse{
+		ID:          task.ID,
+		Title:       task.Title,
+		Description: task.Description,
+		IsDone:      task.IsDone,
+		DeadlineAt:  task.DeadlineAt,
+		CreatedAt:   task.CreatedAt,
+		UpdatedAt:   task.UpdatedAt,
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(task)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (h *TasksHandler) CreateHandler(w http.ResponseWriter, r *http.Request) {

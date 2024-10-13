@@ -6,7 +6,7 @@ import (
 )
 
 type TasksUsecase interface {
-	GetAll() ([]model.Tasks, error)
+	GetAll(isDone *bool) ([]model.Tasks, error)
 	GetByID(id uint) (*model.Tasks, error)
 	Create(task *model.Tasks) error
 	Update(id uint, task *model.Tasks) error
@@ -23,8 +23,8 @@ func NewTasksUsecase(repo repository.TasksRepository) TasksUsecase {
 	}
 }
 
-func (i *TasksUsecaseImpl) GetAll() ([]model.Tasks, error) {
-	return i.TasksRepository.GetAll()
+func (i *TasksUsecaseImpl) GetAll(isDone *bool) ([]model.Tasks, error) {
+	return i.TasksRepository.GetAll(isDone)
 }
 
 func (i *TasksUsecaseImpl) GetByID(id uint) (*model.Tasks, error) {

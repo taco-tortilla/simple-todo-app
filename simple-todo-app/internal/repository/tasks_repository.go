@@ -13,9 +13,15 @@ func NewTaskrepository(db *gorm.DB) *TasksRepository {
 	return &TasksRepository{db: db}
 }
 
-func (r *TasksRepository) GetAll() ([]model.Tasks, error) {
+func (r *TasksRepository) GetAll(isDone *bool) ([]model.Tasks, error) {
 	var tasks []model.Tasks
-	if err := r.db.Find(&tasks).Error; err != nil {
+	query := r.db.Model(&tasks)
+
+	if isDone != nil {
+		query = query.Where("is_done = ?", *isDone)
+	}
+
+	if err := query.Debug().Order("created_at DESC").Find(&tasks).Error; err != nil {
 		return nil, err
 	}
 	return tasks, nil
