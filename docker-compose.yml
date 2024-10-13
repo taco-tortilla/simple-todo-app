@@ -22,7 +22,7 @@ services:
       dockerfile: ./build/db/Dockerfile
     image: simple-todo-db:1.0
     ports:
-      - 5433:5431
+      - 5433:5432
     volumes:
       - simple-todo-db:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d

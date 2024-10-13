@@ -29,3 +29,6 @@ go.work.sum
 simple-todo-app/tmp
 pre_cmd.txt
 post_cmd.txt
+
+# vscode
+.vscode

@@ -23,7 +23,7 @@ include_ext = ["go", "tpl", "tmpl", "html"]
 # Ignore these filename extensions or directories.
 exclude_dir = ["assets", "tmp", "vendor", "frontend/node_modules"]
 # Watch these directories if you specified.
-include_dir = ["cmd"]
+include_dir = ["cmd", "internal", "config"]
 # Watch these files.
 include_file = []
 # Exclude files.
@@ -34,8 +34,6 @@ exclude_regex = ["_test\\.go"]
 exclude_unchanged = true
 # Follow symlink for directories
 follow_symlink = true
-# This log file places in your tmp_dir.
-log = "air.log"
 # Poll files for changes instead of using fsnotify.
 poll = false
 # Poll interval (defaults to the minimum interval of 500ms).
