@@ -29,26 +29,25 @@ func (r *TasksRepository) GetByID(id uint) (*model.Tasks, error) {
 	return &task, nil
 }
 
-func (r *TasksRepository) Create() ([]model.Tasks, error) {
-	var tasks []model.Tasks
-	if err := r.db.Find(&tasks).Error; err != nil {
-		return nil, err
+func (r *TasksRepository) Create(task *model.Tasks) error {
+	if err := r.db.Create(task).Error; err != nil {
+		return err
 	}
-	return tasks, nil
+	return nil
 }
 
-func (r *TasksRepository) Update() ([]model.Tasks, error) {
-	var tasks []model.Tasks
-	if err := r.db.Find(&tasks).Error; err != nil {
-		return nil, err
+func (r *TasksRepository) Update(id uint, task *model.Tasks) error {
+	result := r.db.Model(task).Where("id = ?", id).Updates(task)
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
 	}
-	return tasks, nil
+	return result.Error
 }
 
-func (r *TasksRepository) Delete() ([]model.Tasks, error) {
-	var tasks []model.Tasks
-	if err := r.db.Find(&tasks).Error; err != nil {
-		return nil, err
+func (r *TasksRepository) Delete(id uint) error {
+	result := r.db.Delete(&model.Tasks{}, id)
+	if result.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
 	}
-	return tasks, nil
+	return result.Error
 }

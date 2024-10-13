@@ -6,9 +6,7 @@ import (
 
 	"github.com/taco-tortilla/simple-todo-app/config"
 	"github.com/taco-tortilla/simple-todo-app/internal/infrastructure"
-	"github.com/taco-tortilla/simple-todo-app/internal/interface/handler"
-	"github.com/taco-tortilla/simple-todo-app/internal/repository"
-	"github.com/taco-tortilla/simple-todo-app/internal/usecase"
+	"github.com/taco-tortilla/simple-todo-app/registry"
 )
 
 func main() {
@@ -16,11 +14,9 @@ func main() {
 	db := infrastructure.ConnectDB()
 	infrastructure.SyncDB(db)
 
-	tasksRepo := repository.NewTaskrepository(db)
-	tasksUsecase := usecase.NewTasksUsecase(tasksRepo)
-	tasksHandler := handler.NewTasksHandler(tasksUsecase)
+	reg := registry.NewRegistory(db)
 
-	r := infrastructure.SetUpRouter(tasksHandler)
+	r := infrastructure.SetUpRouter(reg)
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
