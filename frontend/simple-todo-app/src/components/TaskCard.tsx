@@ -53,7 +53,7 @@ export function TaskCard({ task, refresh }: Props) {
     <>
       <Card
         sx={{
-          minWidth: 300,
+          minWidth: 280,
           backgroundColor: "#424242",
           color: "white",
           opacity: task.isDone ? "0.4" : "1",

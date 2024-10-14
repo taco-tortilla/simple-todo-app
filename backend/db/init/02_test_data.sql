@@ -20,9 +20,9 @@ values
 --------------------------------------------------
 -- tasks_categories
 --------------------------------------------------
-insert into
-  tasks_categories (tasks_id, categories_id)
-values
-  (1, 1),
-  (3, 2),
-  (3, 1);
+-- insert into
+--   tasks_categories (tasks_id, categories_id)
+-- values
+--   (1, 1),
+--   (3, 2),
+--   (3, 1);
