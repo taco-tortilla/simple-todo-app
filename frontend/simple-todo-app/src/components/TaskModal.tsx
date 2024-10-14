@@ -3,9 +3,7 @@ import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import Grid2 from "@mui/material/Grid2";
-import { useEffect, useState } from "react";
-import { Notification } from "./Notification";
-import { SnackbarCloseReason } from "@mui/material/Snackbar";
+import { useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
 import TextField from "@mui/material/TextField";
@@ -40,7 +38,6 @@ const style = {
 export function TaskModal({ open, handleClose, task, refresh }: Props) {
   const { trigger: putTrigger } = usePutTask(String(task.id));
   const { trigger: deleteTrigger } = useDeleteTask(String(task.id));
-  const [notificationOpen, setNotificationOpen] = useState(false);
   const { control, handleSubmit, reset } = useForm<TaskForm>({
     defaultValues: {
       title: task.title,
@@ -61,16 +58,8 @@ export function TaskModal({ open, handleClose, task, refresh }: Props) {
 
   const handleClickDelete = async () => {
     await deleteTrigger();
-    setNotificationOpen(true);
     refresh();
     handleClose();
-  };
-
-  const handleNotificationClose = (reason?: SnackbarCloseReason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setNotificationOpen(false);
   };
 
   const onSubmit = async (data: TaskForm) => {
@@ -251,11 +240,6 @@ export function TaskModal({ open, handleClose, task, refresh }: Props) {
           </Box>
         </Fade>
       </Modal>
-      <Notification
-        open={notificationOpen}
-        handleClose={handleNotificationClose}
-        message="task deleted"
-      />
     </div>
   );
 }

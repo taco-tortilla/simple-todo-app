@@ -56,6 +56,7 @@ export function TaskCard({ task, refresh }: Props) {
           minWidth: 300,
           backgroundColor: "#424242",
           color: "white",
+          opacity: task.isDone ? "0.4" : "1",
         }}
         onClick={handleOpen}
       >

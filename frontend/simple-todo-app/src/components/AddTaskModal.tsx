@@ -1,8 +1,6 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Grid2 from "@mui/material/Grid2";
-import { Notification } from "./Notification";
-import { SnackbarCloseReason } from "@mui/material/Snackbar";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
 import TextField from "@mui/material/TextField";
@@ -12,7 +10,6 @@ import { Controller, useForm } from "react-hook-form";
 import DoneIcon from "@mui/icons-material/Done";
 import { ErrorText } from "./ErrorText";
 import { UpdateTaskRequest } from "../api/requests/tasksRequest";
-import { useState } from "react";
 import { usePostTask } from "../api/tasks";
 
 interface Props {
@@ -36,7 +33,6 @@ const style = {
 
 export function AddTaskModal({ open, handleClose, refresh }: Props) {
   const { trigger } = usePostTask();
-  const [notificationOpen, setNotificationOpen] = useState(false);
   const { control, handleSubmit, reset } = useForm<TaskForm>({
     defaultValues: {
       title: "",
@@ -45,13 +41,6 @@ export function AddTaskModal({ open, handleClose, refresh }: Props) {
       deadlineDate: "",
     },
   });
-
-  const handleNotificationClose = (reason?: SnackbarCloseReason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setNotificationOpen(false);
-  };
 
   const onSubmit = async (data: TaskForm) => {
     const deadlineat =
@@ -195,11 +184,6 @@ export function AddTaskModal({ open, handleClose, refresh }: Props) {
           </Box>
         </Fade>
       </Modal>
-      <Notification
-        open={notificationOpen}
-        handleClose={handleNotificationClose}
-        message="task deleted"
-      />
     </div>
   );
 }
