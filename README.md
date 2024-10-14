@@ -1,4 +1,8 @@
 # Simple todo app with go
 
-Simple todo app using go.<br>
-To learn to build api servers using standard libraries without frameworks.
+Created to learn how to build API servers using standard libraries without frameworks.
+
+## Screenshots
+
+![](doc/screenshot_1.png)
+![](doc/screenshot_2.png)
