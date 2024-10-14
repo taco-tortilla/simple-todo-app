@@ -7,8 +7,8 @@ create table
   categories (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL
   );
 
 --------------------------------------------------
@@ -22,9 +22,9 @@ create table
     title varchar(255) NOT NULL,
     description TEXT,
     is_done BOOLEAN NOT NULL DEFAULT false,
-    deadline_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    deadline_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL
   );
 
 --------------------------------------------------

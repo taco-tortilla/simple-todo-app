@@ -6,7 +6,7 @@ import (
 
 	"github.com/taco-tortilla/simple-todo-app/config"
 	"github.com/taco-tortilla/simple-todo-app/internal/infrastructure"
-	"github.com/taco-tortilla/simple-todo-app/registry"
+	"github.com/taco-tortilla/simple-todo-app/internal/registry"
 )
 
 func main() {

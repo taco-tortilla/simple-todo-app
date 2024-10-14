@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/taco-tortilla/simple-todo-app/internal/domain/model"
 	"gorm.io/gorm"
 )
@@ -21,7 +23,7 @@ func (r *TasksRepository) GetAll(isDone *bool) ([]model.Tasks, error) {
 		query = query.Where("is_done = ?", *isDone)
 	}
 
-	if err := query.Debug().Order("created_at DESC").Find(&tasks).Error; err != nil {
+	if err := query.Debug().Order("is_done ASC, created_at DESC, id DESC").Find(&tasks).Error; err != nil {
 		return nil, err
 	}
 	return tasks, nil
@@ -43,7 +45,16 @@ func (r *TasksRepository) Create(task *model.Tasks) error {
 }
 
 func (r *TasksRepository) Update(id uint, task *model.Tasks) error {
-	result := r.db.Model(task).Where("id = ?", id).Updates(task)
+
+	updateData := map[string]interface{}{
+		"Title":       task.Title,
+		"Description": task.Description,
+		"IsDone":      task.IsDone,
+		"DeadlineAt": task.DeadlineAt,
+		"UpdatedAt":   time.Now(),
+	}
+
+	result := r.db.Model(task).Where("id = ?", id).Updates(updateData)
 	if result.RowsAffected == 0 {
 		return gorm.ErrRecordNotFound
 	}

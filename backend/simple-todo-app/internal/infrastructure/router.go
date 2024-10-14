@@ -5,12 +5,13 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/taco-tortilla/simple-todo-app/internal/interface/middlewares"
-	"github.com/taco-tortilla/simple-todo-app/registry"
+	"github.com/taco-tortilla/simple-todo-app/internal/registry"
 )
 
 func SetUpRouter(reg *registry.Registry) http.Handler {
 
 	r := chi.NewRouter()
+	r.Use(middlewares.Cors)
 	r.Use(middlewares.LoggingMiddleware)
 	r.Route("/tasks", func(r chi.Router) {
 		r.Get("/", reg.TasksHandler.GetAllTasksHandler)

@@ -12,7 +12,7 @@ type CreateTaskRequest struct {
 type UpdateTaskRequest struct {
 	Title       string     `json:"title,omitempty"`
 	Description string     `json:"description,omitempty"`
-	IsDone      bool       `json:"isDone,omitempty"`
+	IsDone      bool       `json:"isDone"`
 	DeadlineAt  *time.Time `json:"deadlineAt,omitempty"`
 	UpdatedAt   *time.Time `json:"updateAt"`
 }
