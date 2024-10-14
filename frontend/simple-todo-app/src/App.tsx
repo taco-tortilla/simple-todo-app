@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { Task } from "./components/Task";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import AddIcon from "@mui/icons-material/Add";
+import Grid2 from "@mui/material/Grid2";
+import { AddTaskModal } from "./components/AddTaskModal";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Box sx={{ margin: "0 auto", maxWidth: "300px", padding: "40px" }}>
+        <Grid2 container justifyContent="space-between" alignItems="center">
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              textAlign: "center",
+              paddingTop: "15px",
+              paddingBottom: "15px",
+            }}
+          >
+            Todo
+          </Typography>
+          <AddIcon onClick={handleOpen} />
+        </Grid2>
+        <Stack spacing={1}>
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+          <Task title={"sample"} deadline={"2024/10/13"} />
+        </Stack>
+      </Box>
+      <AddTaskModal open={open} handleClose={handleClose} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
