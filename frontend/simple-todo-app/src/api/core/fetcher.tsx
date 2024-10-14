@@ -19,5 +19,5 @@ export const postTask = async (
 };
 
 export const deleteTask = async (url: string) => {
-  await axiosBase.post(url);
+  await axiosBase.delete(url);
 };

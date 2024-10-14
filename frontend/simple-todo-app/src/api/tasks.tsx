@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { getTasks, postTask, putTask } from "./core/fetcher";
+import { deleteTask, getTasks, postTask, putTask } from "./core/fetcher";
 import { Task } from "../types/task";
 import useSWRMutation from "swr/mutation";
 
@@ -25,6 +25,14 @@ export function usePutTask(id: string) {
 
 export function usePostTask() {
   const { trigger } = useSWRMutation(`/tasks`, postTask);
+
+  return {
+    trigger,
+  };
+}
+
+export function useDeleteTask(id: string) {
+  const { trigger } = useSWRMutation(`/tasks/${id}`, deleteTask);
 
   return {
     trigger,

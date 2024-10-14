@@ -7,6 +7,7 @@ import Grid2 from "@mui/material/Grid2";
 import { AddTaskModal } from "./AddTaskModal";
 import { useGetTask } from "../api/tasks";
 import ErrorComponent from "./ErrorComponent";
+import Box from "@mui/material/Box";
 
 export function TaskList() {
   const { tasks, isError, mutate } = useGetTask("");
@@ -27,8 +28,20 @@ export function TaskList() {
   if (isError) return <ErrorComponent />;
 
   return (
-    <>
-      <Grid2 container justifyContent="space-between" alignItems="center">
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        padding: "0 40px",
+      }}
+    >
+      <Grid2
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ marginTop: "40px", paddingRight: "16px" }}
+      >
         <Typography
           variant="h1"
           sx={{
@@ -43,12 +56,16 @@ export function TaskList() {
         </Typography>
         <AddIcon onClick={handleOpen} />
       </Grid2>
-      <Stack spacing={1}>
-        {tasks?.map((task) => (
-          <TaskCard task={task} key={task.id} refresh={refresh} />
-        ))}
-      </Stack>
+      <Box
+        sx={{ overflow: "auto", marginBottom: "40px", paddingRight: "16px" }}
+      >
+        <Stack spacing={1}>
+          {tasks?.map((task) => (
+            <TaskCard task={task} key={task.id} refresh={refresh} />
+          ))}
+        </Stack>
+      </Box>
       <AddTaskModal open={open} handleClose={handleClose} refresh={refresh} />
-    </>
+    </Box>
   );
 }

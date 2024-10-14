@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 function App() {
   return (
-    <Box sx={{ padding: "40px" }}>
+    <Box sx={{ height: "100vh" }}>
       <Suspense fallback={<Loading />}>
         <TaskList />
       </Suspense>

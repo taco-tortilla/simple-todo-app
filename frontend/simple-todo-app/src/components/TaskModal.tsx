@@ -15,7 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import DoneIcon from "@mui/icons-material/Done";
 import { ErrorText } from "./ErrorText";
 import { UpdateTaskRequest } from "../api/requests/tasksRequest";
-import { usePutTask } from "../api/tasks";
+import { useDeleteTask, usePutTask } from "../api/tasks";
 
 interface Props {
   open: boolean;
@@ -38,7 +38,8 @@ const style = {
 };
 
 export function TaskModal({ open, handleClose, task, refresh }: Props) {
-  const { trigger } = usePutTask(String(task.id));
+  const { trigger: putTrigger } = usePutTask(String(task.id));
+  const { trigger: deleteTrigger } = useDeleteTask(String(task.id));
   const [notificationOpen, setNotificationOpen] = useState(false);
   const { control, handleSubmit, reset } = useForm<TaskForm>({
     defaultValues: {
@@ -58,8 +59,10 @@ export function TaskModal({ open, handleClose, task, refresh }: Props) {
     });
   }, [reset, task]);
 
-  const handleClickDelete = () => {
+  const handleClickDelete = async () => {
+    await deleteTrigger();
     setNotificationOpen(true);
+    refresh();
     handleClose();
   };
 
@@ -80,7 +83,7 @@ export function TaskModal({ open, handleClose, task, refresh }: Props) {
       isDone: data.isDone,
       deadlineat: deadlineat,
     };
-    await trigger(request);
+    await putTrigger(request);
     refresh();
     handleClose();
   };
