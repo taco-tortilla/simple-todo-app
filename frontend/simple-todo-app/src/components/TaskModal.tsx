@@ -3,7 +3,6 @@ import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
 import Grid2 from "@mui/material/Grid2";
-import { useEffect } from "react";
 import Divider from "@mui/material/Divider";
 import Fade from "@mui/material/Fade";
 import TextField from "@mui/material/TextField";
@@ -38,23 +37,12 @@ const style = {
 export function TaskModal({ open, handleClose, task, refresh }: Props) {
   const { trigger: putTrigger } = usePutTask(String(task.id));
   const { trigger: deleteTrigger } = useDeleteTask(String(task.id));
-  const { control, handleSubmit, reset } = useForm<TaskForm>({
-    defaultValues: {
-      title: task.title,
-      description: task.description.replace(/\\n/g, "\n"),
-      isDone: task.isDone,
-      deadlineDate: timestampToDate(task.deadlineAt),
-    },
-  });
+  const { control, handleSubmit, reset, setValue } = useForm<TaskForm>();
 
-  useEffect(() => {
-    reset({
-      title: task.title,
-      description: task.description.replace(/\\n/g, "\n"),
-      isDone: task.isDone,
-      deadlineDate: timestampToDate(task.deadlineAt),
-    });
-  }, [reset, task]);
+  setValue("title", task.title);
+  setValue("description", task.description.replace(/\\n/g, "\n"));
+  setValue("isDone", task.isDone);
+  setValue("deadlineDate", timestampToDate(task.deadlineAt));
 
   const handleClickDelete = async () => {
     await deleteTrigger();
